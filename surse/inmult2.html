@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <title>Înmulțiri de numere mai multe cifre cifre</title>
+  <style>
+    body {
+      font-family: Calibri, sans-serif;
+      font-size: 18px;
+      background-color: #FFF3CD;
+      color: #CC0000;
+      padding: 20px;
+    }
+    h1 { text-align: center; }
+    .exercitiu {
+      margin: 10px 0;
+      padding: 10px;
+      background: #fff;
+      border-radius: 8px;
+      border: 1px solid #999;
+    }
+    input[type="number"] {
+      width: 60px;
+      font-size: 18px;
+      text-align: center;
+    }
+    button {
+      font-size: 18px;
+      margin: 10px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+    }
+    #verifica { background-color: #28a745; color: white; }
+    #reset { background-color: #dc3545; color: white; }
+    #rezultat { margin-top: 20px; font-weight: bold; text-align: center; }
+  </style>
+</head>
+<body>
+  <h1>Înmulțiri de numere cu mai multe cifre</h1>
+  <div id="exercitii"></div>
+  <div style="text-align:center;">
+    <button id="verifica">VERIFICĂ</button>
+    <button id="reset">RESET</button>
+  </div>
+  <div id="rezultat"></div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const container = document.getElementById("exercitii");
+      let raspunsuriCorecte = [];
+
+      function genereazaExercitii() {
+        container.innerHTML = "";
+        raspunsuriCorecte = [];
+        for (let i = 0; i < 9; i++) {
+          let a = Math.floor(Math.random() * 900) + 100;
+          let b = Math.floor(Math.random() * 9) + 1;
+          raspunsuriCorecte.push(a * b);
+
+          const div = document.createElement("div");
+          div.className = "exercitiu";
+          div.innerHTML = `${i+1}) ${a} * ${b} = <input type="number" id="rasp${i}" />`;
+          container.appendChild(div);
+        }
+        document.getElementById("rezultat").innerHTML = "";
+      }
+
+      document.getElementById("verifica").addEventListener("click", () => {
+        let punctaj = 0;
+        let feedback = "<h2>Rezultate:</h2><ul>";
+        for (let i = 0; i < 9; i++) {
+          let rasp = document.getElementById("rasp"+i).value;
+          if (parseInt(rasp) === raspunsuriCorecte[i]) {
+            punctaj++;
+            feedback += `<li>Exercițiul ${i+1}: Corect! (${raspunsuriCorecte[i]})</li>`;
+          } else {
+            feedback += `<li>Exercițiul ${i+1}: Greșit. Răspuns corect: ${raspunsuriCorecte[i]}</li>`;
+          }
+        }
+        feedback += "</ul>";
+        document.getElementById("rezultat").innerHTML = `Ai obținut <strong>${punctaj}</strong> puncte din 9.<br>${feedback}`;
+      });
+
+      document.getElementById("reset").addEventListener("click", genereazaExercitii);
+
+      genereazaExercitii(); // generăm exercițiile imediat
+    });
+  </script>
+</body>
+</html>
